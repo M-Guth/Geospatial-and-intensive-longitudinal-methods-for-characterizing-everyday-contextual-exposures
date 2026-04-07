@@ -1,30 +1,40 @@
-# Geospatial and intensive longitudinal methods for characterizing everyday contextual exposures
+# Geospatial and Intensive Longitudinal Methods for Characterizing Everyday Contextual Exposures
 
-Dieses Repository ist eine eigenstaendige Demo-App in Shiny. Die App imitiert den Analyseansatz aus dem APAC-Repository mit simulierten GPS-Daten in der Karlsruher Innenstadt.
+This repository contains a standalone Shiny demo app that visualizes a simulated geospatial ambulatory assessment workflow in Karlsruhe city center.
 
-## Inhalt
+The app follows an APAC-like structure (variable naming and feature logic) while keeping the full demo self-contained and reproducible with simulated data.
 
-- Simulation von 5000 GPS-Punkten auf Minute-Level
-- Mehrere userId-Werte und APAC-aehnliche Variablenstruktur
-- Exemplarische Ableitung von:
-  - Distanz- und Bewegungsmetriken
-  - Home-Proximity (200m)
-  - OSM-analogen Crowded-Area-Indikatoren
-  - 100m Buffer-Statistiken fuer NDVI, Imperviousness und Population
-- Day-Level Aggregation wie im APAC-Workflow
-- Interaktive Kartenansichten und Tabellen
+## Features
 
-## Projektstruktur
+- Simulates 5,000 minute-level GPS observations across multiple user IDs
+- Derives APAC-like contextual and behavioral features, including:
+- Distance and mobility metrics
+- Home proximity
+- Crowded-area indicators from OSM-analog layers
+- 100m buffer summaries (example raster, imperviousness, population)
+- Aggregates minute-level records into day-level indicators
+- Provides three interactive analysis tabs:
+- Minute-Level Map
+- Day-Level Aggregation (including calendar heatmap)
+- Methodology and Input Data
+- Includes a methodology map with:
+- GPS points and sampled 100m buffers
+- OSM-analog source layers (shop, pedestrian, railway, department)
+- Buffer layers by geometry type (50m/10m/50m/0m logic)
+- Intersection layers (GPS x example raster, GPS x each OSM layer)
+- Collapsible left control/story panels that expand map space when hidden
 
-- app.R: Shiny-App (UI + Server)
-- R/simulate_data.R: Datensimulation, Methodik-Layer, Feature Engineering
-- data/: optionaler Speicherort fuer exportierte CSVs
+## Project Structure
 
-## Start
+- `app.R`: Shiny UI/server app
+- `R/simulate_data.R`: Data simulation, methodology layers, and feature engineering
+- `data/`: data assets (includes `Karlsruhe_NDVI.tif` in this repository)
 
-1. R oder RStudio im Projektordner oeffnen
-2. Benoetigte Pakete installieren
-3. App starten
+## Run the App
+
+1. Open the project in R or RStudio
+2. Install required packages
+3. Launch the app
 
 ```r
 install.packages(c(
@@ -35,22 +45,30 @@ install.packages(c(
 shiny::runApp()
 ```
 
-## Methodik in der App
+## App Overview
 
-Tab 1: Minute-Level Karte
-- Zeigt simulierte GPS-Punkte je userId
-- Farbgebung ueber waehlbare Variablen (z. B. speed_kmh, ndvi_mean_100m)
-- Klick auf Punkt + optionaler 100m Buffer
+### 1) Minute-Level Map
 
-Tab 2: Tagesaggregation
-- Zeigt day-level Kennzahlen pro userId und Datum
-- Zeitreihe, Tageskarte und Tabelle
+- Filter by user ID
+- Color points by selectable variable (for example `speed_kmh`, `ndvi_mean_100m`)
+- Inspect point details and optionally display a 100m clicked-point buffer
+- Explore the corresponding minute-level table
 
-Tab 3: Methodik und Eingangsdaten
-- Zeigt simuliertes NDVI-Raster und OSM-analoge Layer
-- Dokumentiert die Buffer-Logik (100m bei Umweltmetriken, 50m/10m/50m/0m bei OSM-Layern)
+### 2) Day-Level Aggregation
 
-## Hinweise
+- Select user and day-level metric
+- View trajectory line plot
+- View calendar heatmap
+- Explore day-level map and table
 
-- Die Daten sind komplett simuliert und dienen nur zur methodischen Demonstration.
-- Die Variablennamen orientieren sich an der APAC-Pipeline, damit ein direkter Vergleich moeglich ist.
+### 3) Methodology and Input Data
+
+- Review the methodological story and assumptions
+- Inspect source layers and derived intersections
+- Toggle map layers (collapsed layer control)
+- Use the tab-specific user filter to update methodology outputs
+
+## Notes
+
+- All records used by the app are simulated and intended for methodological demonstration.
+- Naming conventions are kept close to APAC-style pipelines to support easier conceptual transfer.
